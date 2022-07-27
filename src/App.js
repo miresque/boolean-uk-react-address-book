@@ -21,15 +21,15 @@ export default function App() {
       <nav>
         <h2>Menu</h2>
         <ul>
-          <Link to={"/"}><li>Contacts List</li></Link>
-          <Link to={"/create"}><li>Add New Contact</li></Link>
+          <Link to="/"><li>Contacts List</li></Link>
+          <Link to="/contacts/add"><li>Add New Contact</li></Link>
         </ul>
       </nav>
       <main>
         <Routes>
           <Route path="/" element={<ContactsList contacts={contacts} />} />
-          <Route path="/create" element={<ContactsAdd />} />
-          <Route path="/view/:id" element={<ContactsView />} />
+          <Route path="/contacts/add" element={<ContactsAdd />} />
+          <Route path="/contacts/:id" element={<ContactsView />} />
         </Routes>
       </main>
     </>
