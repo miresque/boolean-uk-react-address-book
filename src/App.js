@@ -8,12 +8,14 @@ const dbURL = 'http://localhost:4000/contacts'
 
 export default function App() {
   const [contacts, setContacts] = useState([])
-  
-  //TODO: Load all contacts on useEffect when component first renders
+  // console.log('contacts state', contacts)
+
   useEffect(() => {
     fetch(dbURL)
      .then(res => res.json())
-     .then(data => setContacts(data))
+     .then(data => {setContacts(data); 
+      //console.log('contacts API', data)
+    })
   }, [])
 
   return (
@@ -21,14 +23,14 @@ export default function App() {
       <nav>
         <h2>Menu</h2>
         <ul>
-          <Link to="/"><li>Contacts List</li></Link>
-          <Link to="/contacts/add"><li>Add New Contact</li></Link>
+        <li><Link to="/">Contacts List</Link></li>
+        <li><Link to="/contacts/add">Add New Contact</Link></li>
         </ul>
       </nav>
       <main>
         <Routes>
           <Route path="/" element={<ContactsList contacts={contacts} />} />
-          <Route path="/contacts/add" element={<ContactsAdd />} />
+          <Route path="/contacts/add" element={<ContactsAdd contacts={contacts} setContacts={setContacts} dbURL={dbURL} />} />
           <Route path="/contacts/:id" element={<ContactsView />} />
         </Routes>
       </main>

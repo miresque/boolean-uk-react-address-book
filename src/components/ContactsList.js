@@ -12,7 +12,7 @@ function ContactsList(props) {
         <h2>Contacts</h2>
       </header>
       <ul className="contacts-list">
-        {contacts.map((contact, index) => {
+        { contacts.map((contact, index) => {
           const { firstName, lastName } = contact
           return (
             <li className="contact" key={index}>
