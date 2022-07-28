@@ -11,7 +11,10 @@ function ContactsAdd(props) {
       "firstName": "",
       "lastName": "",
       "street": "",
-      "city": ""
+      "city": "",
+      "email": "",
+      "linkedIn": "",
+      "twitter": ""
     }
   )
 
@@ -77,6 +80,24 @@ function ContactsAdd(props) {
         type="text" 
         value={newContact.city} 
         required
+      />
+
+      <label htmlFor="city">LinkedIn:</label>
+      <input 
+        onChange={handleFormInput} 
+        id="linkedIn" 
+        name="linkedIn" 
+        type="text" 
+        value={newContact.linkedIn} 
+      />
+
+      <label htmlFor="city">Twitter:</label>
+      <input 
+        onChange={handleFormInput} 
+        id="twitter" 
+        name="twitter" 
+        type="text" 
+        value={newContact.twitter}
       />
 
       <div className="actions-section">
