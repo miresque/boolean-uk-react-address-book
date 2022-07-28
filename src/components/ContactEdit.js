@@ -54,7 +54,6 @@ export default function ContactEdit(props) {
   }
 
   return (
-    <>
     <form className="form-stack contact-form" onSubmit={handleSubmit}>
       <h2>Create Contact</h2>
 
@@ -121,7 +120,5 @@ export default function ContactEdit(props) {
         </button>
       </div>
     </form>
-    <button onClick={() => console.log(updatedContact)}>updated contact</button>
-    </>
   )
 }
