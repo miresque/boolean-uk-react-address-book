@@ -151,3 +151,10 @@ h2 {
 .address-card h2 {
   font-size: 1.15rem;
 }
+
+/* extension delete button  */
+.del-button {
+  width: fit-content;
+  color: red;
+  cursor: pointer;
+}

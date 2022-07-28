@@ -30,7 +30,7 @@ export default function App() {
       </nav>
       <main>
         <Routes>
-          <Route path="/" element={<ContactsList contacts={contacts} />} />
+          <Route path="/" element={<ContactsList contacts={contacts} setContacts={setContacts} />} />
           <Route path="/contacts/add" element={<ContactsAdd contacts={contacts} setContacts={setContacts} dbURL={dbURL} />} />
           <Route path="/contacts/:id" element={<ContactsView />} />
           <Route path="/contacts/:id/edit" element={<ContactEdit contacts={contacts} setContacts={setContacts} />} />
