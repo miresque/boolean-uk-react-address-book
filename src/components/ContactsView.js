@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
-function ContactsView() {
+export default function ContactsView() {
   const [contact, setContact] = useState(false)
   const { id } = useParams()
 
@@ -24,5 +24,3 @@ function ContactsView() {
     </div>
   )
 }
-
-export default ContactsView

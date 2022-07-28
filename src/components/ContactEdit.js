@@ -1,45 +1,60 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom";
+const contactTemplate = {
+    "id": "",
+    "firstName": "",
+    "lastName": "",
+    "street": "",
+    "city": "",
+    "email": "",
+    "linkedIn": "",
+    "twitter": ""
+}
 
-export default function ContactsAdd(props) {
-  
+export default function ContactEdit(props) {
+  const { setContacts, contacts } = props
   const navigate = useNavigate()
-  const { setContacts, contacts, dbURL } = props
-  const [newContact, setNewContact] = useState(
-    {
-      "id": contacts.length + 1,
-      "firstName": "",
-      "lastName": "",
-      "street": "",
-      "city": "",
-      "email": "",
-      "linkedIn": "",
-      "twitter": ""
-    }
-  )
+  const { id } = useParams()  
+  const [updatedContact, setUpdatedContact] = useState(contactTemplate)
+  
+  useEffect(() => {
+      fetch('http://localhost:4000/contacts/' + id)
+      .then(res => res.json())
+      .then(data => setUpdatedContact(data))
+    }, [id])
+
+  const contactIndex = () => {
+    const index = contacts.findIndex(c => c.id === updatedContact.id)
+    return index
+  }
 
   const handleFormInput = (event) => {
     const inputValue = event.target.value
     const inputName = event.target.name
-    setNewContact({...newContact, [inputName]: inputValue})
+    setUpdatedContact({...updatedContact, [inputName]: inputValue})
   }
 
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    fetch(dbURL, {
-      method: 'POST',
+    fetch('http://localhost:4000/contacts/' + id, {
+      method: 'PATCH',
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(newContact)
+      body: JSON.stringify(updatedContact)
     })
      .then(res => res.json())
-     .then(newContact => setContacts([...contacts, newContact]))
+     .then(updatedInfo => {
+        const newContacts = [...contacts];
+        newContacts.splice(contactIndex(), 1, updatedInfo);
+        setContacts(newContacts)
+    })
     navigate("/")
   }
 
   return (
+    <>
     <form className="form-stack contact-form" onSubmit={handleSubmit}>
       <h2>Create Contact</h2>
 
@@ -48,7 +63,7 @@ export default function ContactsAdd(props) {
         onChange={handleFormInput} 
         id="firstName" name="firstName" 
         type="text" 
-        value={newContact.firstName} 
+        value={updatedContact.firstName} 
         required 
       />
 
@@ -58,7 +73,7 @@ export default function ContactsAdd(props) {
         id="lastName" 
         name="lastName" 
         type="text" 
-        value={newContact.lastName} 
+        value={updatedContact.lastName} 
         required
       />
 
@@ -68,7 +83,7 @@ export default function ContactsAdd(props) {
         id="street" 
         name="street" 
         type="text" 
-        value={newContact.street} 
+        value={updatedContact.street} 
         required
       />
 
@@ -78,7 +93,7 @@ export default function ContactsAdd(props) {
         id="city" 
         name="city" 
         type="text" 
-        value={newContact.city} 
+        value={updatedContact.city} 
         required
       />
 
@@ -88,7 +103,7 @@ export default function ContactsAdd(props) {
         id="linkedIn" 
         name="linkedIn" 
         type="text" 
-        value={newContact.linkedIn} 
+        value={updatedContact.linkedIn} 
       />
 
       <label htmlFor="city">Twitter:</label>
@@ -97,14 +112,16 @@ export default function ContactsAdd(props) {
         id="twitter" 
         name="twitter" 
         type="text" 
-        value={newContact.twitter}
+        value={updatedContact.twitter}
       />
 
       <div className="actions-section">
         <button className="button blue" type="submit">
-          Create
+          Submit Changes
         </button>
       </div>
     </form>
+    <button onClick={() => console.log(updatedContact)}>updated contact</button>
+    </>
   )
 }
