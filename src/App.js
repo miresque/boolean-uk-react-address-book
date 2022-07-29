@@ -9,14 +9,19 @@ const dbURL = 'http://localhost:4000/contacts'
 
 export default function App() {
   const [contacts, setContacts] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
   // console.log('contacts state', contacts)
 
   useEffect(() => {
     fetch(dbURL)
      .then(res => res.json())
-     .then(data => {setContacts(data); 
+     .then(data => {
+        if (data) {
+          setContacts(data);
+        }
+        setIsLoading(false)      
       // console.log('contacts API', data)
-    })
+      })
   }, [])
 
   return (
@@ -30,9 +35,9 @@ export default function App() {
       </nav>
       <main>
         <Routes>
-          <Route path="/" element={<ContactsList contacts={contacts} setContacts={setContacts} />} />
+          <Route path="/" element={<ContactsList contacts={contacts} setContacts={setContacts} isLoading={isLoading} />} />
           <Route path="/contacts/add" element={<ContactsAdd contacts={contacts} setContacts={setContacts} dbURL={dbURL} />} />
-          <Route path="/contacts/:id" element={<ContactsView />} />
+          <Route path="/contacts/:id" element={<ContactsView isLoading={isLoading} setIsLoading={setIsLoading} />} />
           <Route path="/contacts/:id/edit" element={<ContactEdit contacts={contacts} setContacts={setContacts} />} />
         </Routes>
       </main>
